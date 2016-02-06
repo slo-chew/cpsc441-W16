@@ -109,15 +109,16 @@ public class SelectServer {
                                 decoder.decode(inBuffer, cBuffer, false);
                                 cBuffer.flip();
                                 line = cBuffer.toString();
-                                System.out.print("UDPClient: " + line);
+                                System.out.print("UDPClient: " + line + "\n");
                        
                                 // Echo the message back
                                 inBuffer.flip();
                                 bytesSent = udpClient.send(inBuffer, clientAddress); 
                            
                                 
-                                if (line.equals("terminate\n"))
+                                if (line.equals("terminate"))
                                     terminated = true;
+                                  continue;
 
                             }
                             else {
@@ -133,7 +134,7 @@ public class SelectServer {
                                 {
                                     System.out.println("read() error, or connection closed");
                                     key.cancel();  // deregister the socket
-                                    continue;
+                                    break;
                                 }
                                 inBuffer.flip();      // make buffer available  
                                 decoder.decode(inBuffer, cBuffer, false);
@@ -279,9 +280,11 @@ public class SelectServer {
         {
             SelectionKey key = (SelectionKey)itr.next();
             //itr.remove();
-            if (key.isAcceptable())
+            if (key.channel() instanceof ServerSocketChannel)
                 ((ServerSocketChannel)key.channel()).socket().close();
-            else if (key.isValid())
+            else if (key.channel() instanceof DatagramChannel)
+                ((DatagramChannel)key.channel()).socket().close();
+            else
                 ((SocketChannel)key.channel()).socket().close();
         }
       }
