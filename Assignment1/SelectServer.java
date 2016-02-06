@@ -193,13 +193,13 @@ public class SelectServer {
                                         File[] listOfFiles = folder.listFiles();
                                         
                                         boolean fileFound = false; 
+                                        System.out.print("Open file: " + fileName);
                                         
                                         for (int i = 0; i < listOfFiles.length; i++) {
                                             if (listOfFiles[i].isFile()) {
                                             	
                                             	//if the file is in the directory 
                                             	if((listOfFiles[i].getName() + "\n").equals(fileName)){
-                                            		
                                                     fileFound = true;
                                             		BufferedReader br = new BufferedReader(new FileReader(listOfFiles[i].getName()));
                                                     try {
@@ -236,6 +236,7 @@ public class SelectServer {
                                             
                                             buff = ByteBuffer.wrap("eof\n".getBytes());
                                             clientChannel.write(buff); //end the output
+                                            System.out.println("open() failed");
                                             
                                         }
                                 		
