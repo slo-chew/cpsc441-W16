@@ -3,6 +3,7 @@
    from the server. 
  * For use in CPSC 441 lectures
  * Instructor: Prof. Mea Wang
+ * Modified by: Group 33 - W2016
  */
 
 
